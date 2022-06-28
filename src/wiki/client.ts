@@ -9,7 +9,7 @@ export class FetchError extends Error {
 }
 
 export class WikiClient {
-    async fetchDailyArticles(month: number, day: number): Promise<OnThisDayResponse> {
+    async fetchOnThisDay(month: number, day: number): Promise<OnThisDayResponse> {
         const url = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`
 
         let res: Response
