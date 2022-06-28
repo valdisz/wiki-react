@@ -2,9 +2,10 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { CircularProgress, Typography, Button, IconButton, Box, Tabs, Tab, useTheme, Container, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { action, computed, makeObservable, observable } from 'mobx'
-import { WikiEvent, useWikiClient, WikiClient, OnThisDayResponse, FetchError } from './wiki'
+import { WikiEvent, useWikiClient, WikiClient, OnThisDayResponse } from './wiki'
 import { observer } from 'mobx-react'
 import LinkIcon from '@mui/icons-material/Link'
+import ErrorIcon from '@mui/icons-material/Error'
 
 export function Empty() {
     const store = useStore()
@@ -16,10 +17,12 @@ export function Empty() {
         height: '100%'
     }}>
         <Box sx={{ textAlign: 'center' }}>
-            {store.loading.isLoading && <CircularProgress />}
-            <Typography variant='body2'>No daily Wikipedia articles loaded yet.</Typography>
-            <Typography variant='body2'>Hit the <strong>LOAD</strong> to fetch them.</Typography>
-            <Button autoFocus variant='outlined' color='primary' onClick={store.fetchArticles}>Load</Button>
+            {store.loading.isLoading && <Box>
+                <CircularProgress />
+            </Box> }
+            <Button autoFocus variant='outlined' color='primary' disabled={store.loading.isLoading} onClick={store.fetchArticles}>
+                Discover happennings on the {store.title}
+            </Button>
         </Box>
     </Box>
 }
@@ -45,6 +48,12 @@ export class MainViewModel {
     readonly loading = new LoadingViewModel()
     readonly onThisDay = new OnThisDayViewModel();
 
+    @observable day = new Date()
+
+    @computed get title() {
+        return `day ${this.day.getDate()} of ${this.day.toLocaleString('default', { month: 'long' })}`
+    }
+
     @observable dataLoaded = false
     @observable lastError: string = null
 
@@ -61,9 +70,8 @@ export class MainViewModel {
     readonly fetchArticles = async () => {
         this.loading.start()
 
-        const day = new Date()
-        const m = day.getMonth() + 1;
-        const d = day.getDate();
+        const m = this.day.getMonth() + 1;
+        const d = this.day.getDate();
 
         try {
             const daily = await this.wiki.fetchDailyArticles(m, d)
@@ -157,6 +165,9 @@ export function OnThisDay() {
             bgcolor: 'white'
         }}>
             <Container>
+                <Box>
+                    <Typography variant='h5'>On this day</Typography>
+                </Box>
                 <Tabs value={onThisDay.currentTab} onChange={onThisDay.open}>
                     <Tab label='Selected' value='selected' />
                     <Tab label='births' value='births' />
@@ -197,27 +208,36 @@ export interface WikiEventItemProps {
 }
 
 export function WikiEventItem({ item }: WikiEventItemProps) {
+    const page = item.pages?.length ? item.pages[0] : null
+
     return <Box sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        px: 2, py: 1,
+        alignItems: 'center',
         ':hover': {
             bgcolor: 'ButtonHighlight'
         }
     }}>
-        <Box sx={{ flex: 1 }}>
-            <Typography variant='caption'>{item.year}</Typography>
-            <Typography>{item.text}</Typography>
+        <Box sx={{ flex: 1, display: 'flex' }}>
+            { !!page?.thumbnail?.source
+                ? <Box sx={{ width: '120px', height: '120px', backgroundImage: `url(${page.thumbnail.source})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
+                : <Box sx={{ width: '120px', height: '120px' }} />
+            }
+            <Box sx={{ flex: 1, p: 2}}>
+                { !!item.year && <Typography variant='caption'>{item.year}</Typography> }
+                <Typography>{item.text}</Typography>
+            </Box>
         </Box>
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center'
-        }}>
-            <IconButton component='a' target='_blank' href={`https://en.wikipedia.org/wiki/${item.pages[0].title}`}>
-                <LinkIcon />
-            </IconButton>
-        </Box>
+        { !!page && <Box sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                mr: 2
+            }}>
+                <IconButton component='a' target='_blank' href={`https://en.wikipedia.org/wiki/${page.title}`}>
+                    <LinkIcon />
+                </IconButton>
+            </Box> }
     </Box>
 }
 
@@ -238,13 +258,20 @@ export function WikiEvents({ items }: WikiEventsProps) {
 }
 
 function AppContent() {
+    const { spacing } = useTheme()
     const store = useStore()
 
     const handleDialogClose = store.dismissError
 
     return <>
+        <Helmet>
+            <title>On the {store.title}</title>
+        </Helmet>
         <Dialog open={store.showError} onClose={handleDialogClose}>
-            <DialogTitle>Error</DialogTitle>
+            <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: spacing(1) }}>
+                <ErrorIcon color='error' />
+                <span>Error</span>
+            </DialogTitle>
             <DialogContent>
                 <DialogContentText>{store.lastError}</DialogContentText>
             </DialogContent>
@@ -264,11 +291,6 @@ const AppContentObserved = observer(AppContent)
 
 export default function App() {
     return <StoreProvider>
-        <Helmet>
-            <meta charSet='utf-8' />
-            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-            <meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no' />
-        </Helmet>
         <AppContentObserved />
     </StoreProvider>
 }
