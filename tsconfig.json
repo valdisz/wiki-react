@@ -10,7 +10,7 @@
         ".dist"
     ],
     "compilerOptions": {
-        "target": "esnext",
+        "target": "ES5",
         "module": "commonjs",
         "lib": [
             "DOM",
