@@ -5,6 +5,7 @@ import { useModel } from '../model';
 
 function Empty() {
     const model = useModel()
+    const { loading } = model
 
     return <Box sx={{
         display: 'flex',
@@ -13,10 +14,10 @@ function Empty() {
         height: '100%'
     }}>
         <Box sx={{ textAlign: 'center' }}>
-            {model.loading.isLoading && <Box>
+            {loading.isLoading && <Box>
                 <CircularProgress />
             </Box>}
-            <Button autoFocus variant='outlined' color='primary' disabled={model.loading.isLoading} onClick={model.fetchOnThisDay}>
+            <Button autoFocus variant='outlined' color='primary' disabled={loading.isLoading} onClick={model.fetchOnThisDay}>
                 Discover happennings on the {model.title}
             </Button>
         </Box>
