@@ -20,7 +20,7 @@ describe('ErrorViewModel', () => {
         expect(model.message).toBe('error 2')
     })
 
-    it('error is visible when non-empty error text preset', () => {
+    it('error is visible when non-empty error text present', () => {
         model.set('error')
         expect(model.visible).toBe(true)
     })

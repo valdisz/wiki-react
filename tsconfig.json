@@ -15,21 +15,11 @@
         "lib": [
             "DOM",
             "DOM.Iterable",
-            "ESNext",
-            // "ES2016",
-            // "ES2017",
-            // "ES2018",
-            // "ES2019",
+            "ESNext"
         ],
         "jsx": "react-jsx",
-        // "strict": true,
-        // "strictNullChecks": false,
-        // "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        // "noEmit": true,
-        // "noImplicitAny": false,
-
         "skipLibCheck": true,
         "allowJs": true,
         "allowSyntheticDefaultImports": true,

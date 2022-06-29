@@ -2,9 +2,9 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import App from './app'
 
-test('renders learn react link', () => {
-    // render(<App />)
-    // const linkElement = screen.getByText(/learn react/i)
-    // expect(linkElement).toBeInTheDocument()
-    expect(true).toBe(true)
+it('app can render', () => {
+    render(<App />)
+    const button = screen.getByText(/discover/i)
+
+    expect(button).toBeInTheDocument()
 })

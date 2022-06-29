@@ -1,11 +1,16 @@
 import { action, computed, makeObservable, observable } from 'mobx'
-import { OnThisDayResponse, WikiClient, WikiEvent } from '../wiki'
+import { WikiClient, WikiEvent } from '../wiki'
+import type { OnThisDayResponse } from '../wiki'
 import { ErrorViewModel } from './error';
 import { LoadingViewModel } from './loading';
 import { OnThisDayViewModel } from './on-this-day';
 
 export class MainViewModel {
     constructor(private readonly wiki: WikiClient) {
+        if (!wiki) {
+            throw new Error('wiki client must be provided')
+        }
+
         makeObservable(this)
     }
 
@@ -45,7 +50,7 @@ export class MainViewModel {
         }
     }
 
-    @action readonly acceptDailyArticles = ({ selected, births, deaths, events, holidays }: OnThisDayResponse) => {
+    @action private acceptDailyArticles({ selected, births, deaths, events, holidays }: OnThisDayResponse) {
         this.selected.replace(selected)
         this.births.replace(births)
         this.deaths.replace(deaths)

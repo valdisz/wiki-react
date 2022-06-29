@@ -4,7 +4,11 @@ import { observer } from 'mobx-react'
 import ErrorIcon from '@mui/icons-material/Error'
 import { useModel } from '../model'
 
-function Error() {
+export interface ErrorProps {
+    closeButtonTestId?: string
+}
+
+function Error({ closeButtonTestId }: ErrorProps) {
     const { spacing } = useTheme()
     const { error } = useModel()
 
@@ -19,7 +23,7 @@ function Error() {
             <DialogContentText>{error.message}</DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleDialogClose} autoFocus>Close</Button>
+            <Button onClick={handleDialogClose} autoFocus data-testid={closeButtonTestId}>Close</Button>
         </DialogActions>
     </Dialog>
 }
