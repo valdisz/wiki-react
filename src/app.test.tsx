@@ -4,7 +4,7 @@ import App from './app'
 
 it('app can render', () => {
     render(<App />)
-    const button = screen.getByText(/discover/i)
+    const button = screen.queryByText(/discover/i)
 
     expect(button).toBeInTheDocument()
 })

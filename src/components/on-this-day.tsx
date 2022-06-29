@@ -1,14 +1,9 @@
 import React from 'react'
-import { Typography, Box, Tabs, Tab, Container } from '@mui/material'
-import { observer } from 'mobx-react'
-import { useModel } from '../model'
-import { TabSelector } from './tab-selector'
-import { WikiEvents } from './wiki-events'
+import { Typography, Box, Container } from '@mui/material'
+import TabStrip from './tab-strip'
+import TabBody from './tab-body'
 
-function OnThisDay() {
-    const store = useModel()
-    const { onThisDay } = store
-
+export default function OnThisDay() {
     return <Box sx={{
         height: '100%',
         display: 'flex',
@@ -20,16 +15,8 @@ function OnThisDay() {
             bgcolor: 'white'
         }}>
             <Container>
-                <Box>
-                    <Typography variant='h5'>On this day</Typography>
-                </Box>
-                <Tabs value={onThisDay.currentTab} onChange={onThisDay.open}>
-                    <Tab label='Selected' value='selected' />
-                    <Tab label='births' value='births' />
-                    <Tab label='deaths' value='deaths' />
-                    <Tab label='events' value='events' />
-                    <Tab label='holidays' value='holidays' />
-                </Tabs>
+                <Typography variant='h5'>On this day</Typography>
+                <TabStrip />
             </Container>
         </Box>
 
@@ -42,19 +29,9 @@ function OnThisDay() {
                 overflow: 'auto'
             }}>
                 <Container sx={{ p: 2 }}>
-                    <TabSelector activeTab={onThisDay.currentTab}>
-                        {[
-                            { name: 'selected', body: <WikiEvents items={store.selected} /> },
-                            { name: 'births', body: <WikiEvents items={store.births} /> },
-                            { name: 'deaths', body: <WikiEvents items={store.deaths} /> },
-                            { name: 'events', body: <WikiEvents items={store.events} /> },
-                            { name: 'holidays', body: <WikiEvents items={store.holidays} /> },
-                        ]}
-                    </TabSelector>
+                    <TabBody />
                 </Container>
             </Box>
         </Box>
     </Box>
 }
-
-export default observer(OnThisDay)

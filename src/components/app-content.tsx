@@ -7,16 +7,16 @@ import Empty from './empty'
 import Error from './error'
 
 function AppContent() {
-    const store = useModel()
+    const model = useModel()
 
     return <>
         <Helmet>
-            <title>On the {store.title}</title>
+            <title>On the {model.title}</title>
         </Helmet>
 
         <Error />
 
-        {store.dataLoaded
+        {model.dataLoaded
             ? <OnThisDay />
             : <Empty />
         }

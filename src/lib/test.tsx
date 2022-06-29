@@ -13,7 +13,7 @@ export interface WithProvidersProps extends ProviderProps {
 
 const WithProviders: React.FC<WithProvidersProps> = ({ model, children }) => {
     return <WikiProvider>
-        <ModelProvider store={model}>
+        <ModelProvider model={model}>
             { children }
         </ModelProvider>
     </WikiProvider>

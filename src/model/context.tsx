@@ -10,15 +10,15 @@ export function useModel() {
 }
 
 export interface StoreProviderProps {
-    store?: MainViewModel
+    model?: MainViewModel
     children: React.ReactNode
 }
 
-export function ModelProvider({ store, children }: StoreProviderProps) {
+export function ModelProvider({ model, children }: StoreProviderProps) {
     const wiki = useWikiClient()
     const [defaultStore] = React.useState(() => new MainViewModel(wiki))
 
-    return <modelContext.Provider value={store ?? defaultStore}>
+    return <modelContext.Provider value={model ?? defaultStore}>
         {children}
     </modelContext.Provider>
 }

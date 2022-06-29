@@ -35,8 +35,8 @@ export class MainViewModel {
     readonly fetchOnThisDay = async () => {
         this.loading.start()
 
-        const m = this.day.getMonth() + 1;
-        const d = this.day.getDate();
+        const m = this.day.getMonth() + 1
+        const d = this.day.getDate()
 
         try {
             const daily = await this.wiki.fetchOnThisDay(m, d)
