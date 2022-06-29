@@ -14,9 +14,9 @@ export interface WikiProviderProps {
 }
 
 export function WikiProvider({ client, children }: WikiProviderProps) {
-    const [ defaultClient ] = React.useState(() => new WikiClient())
+    const [ clientValue ] = React.useState(() => client || new WikiClient())
 
-    return <wikiContext.Provider value={client ?? defaultClient}>
+    return <wikiContext.Provider value={clientValue}>
         {children}
     </wikiContext.Provider>
 }

@@ -16,9 +16,9 @@ export interface StoreProviderProps {
 
 export function ModelProvider({ model, children }: StoreProviderProps) {
     const wiki = useWikiClient()
-    const [defaultStore] = React.useState(() => new MainViewModel(wiki))
+    const [ modelValue ] = React.useState(() => model || new MainViewModel(wiki))
 
-    return <modelContext.Provider value={model ?? defaultStore}>
+    return <modelContext.Provider value={modelValue}>
         {children}
     </modelContext.Provider>
 }
