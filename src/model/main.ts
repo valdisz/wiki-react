@@ -1,9 +1,13 @@
 import { action, computed, makeObservable, observable } from 'mobx'
 import { WikiClient, WikiEvent } from '../wiki'
 import type { OnThisDayResponse } from '../wiki'
-import { ErrorViewModel } from './error';
-import { LoadingViewModel } from './loading';
-import { OnThisDayViewModel } from './on-this-day';
+import { ErrorViewModel } from './error'
+import { LoadingViewModel } from './loading'
+import { OnThisDayViewModel } from './on-this-day'
+
+function eventSort(a: WikiEvent, b: WikiEvent) {
+    return (a.year || 0) - (b.year || 0)
+}
 
 export class MainViewModel {
     constructor(private readonly wiki: WikiClient) {
@@ -51,11 +55,11 @@ export class MainViewModel {
     }
 
     @action private acceptDailyArticles({ selected, births, deaths, events, holidays }: OnThisDayResponse) {
-        this.selected.replace(selected)
-        this.births.replace(births)
-        this.deaths.replace(deaths)
-        this.events.replace(events)
-        this.holidays.replace(holidays)
+        this.selected.replace(selected.sort(eventSort))
+        this.births.replace(births.sort(eventSort))
+        this.deaths.replace(deaths.sort(eventSort))
+        this.events.replace(events.sort(eventSort))
+        this.holidays.replace(holidays.sort(eventSort))
 
         this.dataLoaded = true
     }
