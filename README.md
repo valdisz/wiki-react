@@ -1,6 +1,6 @@
 # General
 
-This is sample application that shows usage of the React, MobX, MUI, Jest of the simple app that fetches *On This Day* from the Wikipedia.
+This is sample application that shows usage of the React, MobX, MUI, Jest in the simple app that fetches *On This Day* from the Wikipedia.
 
 
 # Structure
