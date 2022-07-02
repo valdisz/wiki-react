@@ -41,7 +41,7 @@ describe('Empty', () => {
         expect(progressbar).not.toBeInTheDocument()
     })
 
-    it('progressbar shows when button is clicked', () => {
+    it('progressbar shows when loading starts', () => {
         model.loading.start()
 
         render(<Empty />, { model })

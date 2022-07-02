@@ -8,10 +8,10 @@ function TabStrip() {
 
     return <Tabs value={onThisDay.currentTab} onChange={onThisDay.open}>
         <Tab label='Selected' value='selected' />
-        <Tab label='births' value='births' />
-        <Tab label='deaths' value='deaths' />
-        <Tab label='events' value='events' />
-        <Tab label='holidays' value='holidays' />
+        <Tab label='Births' value='births' />
+        <Tab label='Deaths' value='deaths' />
+        <Tab label='Events' value='events' />
+        <Tab label='Holidays' value='holidays' />
     </Tabs>
 }
 

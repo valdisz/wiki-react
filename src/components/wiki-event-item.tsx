@@ -11,7 +11,7 @@ export interface WikiEventItemProps {
 export function WikiEventItem({ item }: WikiEventItemProps) {
     const page = item.pages?.length ? item.pages[0] : null
 
-    return <Box sx={{
+    return <Box role='listitem' sx={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -21,11 +21,11 @@ export function WikiEventItem({ item }: WikiEventItemProps) {
     }}>
         <Box sx={{ flex: 1, display: 'flex' }}>
             { !!page?.thumbnail?.source
-                ? <Box sx={{ width: '120px', height: '120px', backgroundImage: `url(${page.thumbnail.source})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
+                ? <Box role='figure' sx={{ width: '120px', height: '120px', backgroundImage: `url(${page.thumbnail.source})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
                 : <Box sx={{ width: '120px', height: '120px' }} />
             }
             <Box sx={{ flex: 1, p: 2}}>
-                { !!item.year && <Typography variant='caption'>{item.year}</Typography> }
+                { !!item.year && <Typography variant='caption' data-testid='year'>{item.year}</Typography> }
                 <Typography>{item.text}</Typography>
             </Box>
         </Box>
@@ -35,7 +35,7 @@ export function WikiEventItem({ item }: WikiEventItemProps) {
                 alignItems: 'center',
                 mr: 2
             }}>
-                <IconButton component='a' target='_blank' href={`https://en.wikipedia.org/wiki/${page.title}`}>
+                <IconButton role='button' component='a' target='_blank' href={`https://en.wikipedia.org/wiki/${page.title}`}>
                     <LinkIcon />
                 </IconButton>
             </Box> }

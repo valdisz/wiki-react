@@ -10,7 +10,7 @@ export interface WikiEventsProps {
 export function WikiEvents({ items }: WikiEventsProps) {
     const { spacing } = useTheme()
 
-    return <Box sx={{
+    return <Box role='list' sx={{
         display: 'flex',
         flexDirection: 'column',
         gap: spacing(1)
